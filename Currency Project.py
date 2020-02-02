@@ -1,3 +1,5 @@
+#I am just trying push.
+
 import pandas_datareader as data
 import datetime
 import matplotlib.pyplot as plt
@@ -144,8 +146,64 @@ Exchange date requested (sample input : 2019-1-1):
     return next
 
 def mode_trend():
+    input_code_num = str(input('''
+Would you like to view
+(1) Absolute trend for one currency
+(2) Relative trend for two currencies
 
-    input_code = str(input('''
+Sample input : 1 or 2
+'''))
+    if input_code_num == '2':
+        input_code = str(input('''
+________________________________________
+Currently Supported and Respective Code:
+Brazilian Real : BRL
+Canadaian Dollar : CAD
+Chinese Yuan : CNY
+Denish Krone : DKK
+Hong Kong Dollar : HKD
+Indian Rupee : INR
+Japanese Yen : JPY
+South Korean Won : KRW
+Malaysian Ringgit : MYR
+Mexican Peso : MXN
+Norwegian Krone: NOK
+Swedish Krona : SEK
+South African Rand: ZAR
+Singapore Dollar : SGD
+Sri Lankan Rupee: LKR
+Swiss Franc : CHF
+New Taiwan Dollar : TWD
+Thai Baht : THB
+Australian Dollar : AUD
+Euro : EUR
+New Zealand Dollar : NZD
+British Pound : GBP
+Venezuelan Bolivar : VEF
+________________________________________
+Please enter two currency codes, seperate them with comma:
+
+Sample input : CNY,SGD
+'''))
+        input_code = input_code.upper()
+        temp_code = input_code.split(',',2)
+
+        input_start = str(input('please enter start date (eg. 2019-1-1):'))
+        start = input_to_date(input_start)
+        input_end = str(input('please enter end date (eg. 2019-1-1):'))
+        end = input_to_date(input_end)
+
+        real_code0 = input_to_code(temp_code[0])
+        real_code1 = input_to_code(temp_code[1])
+        df = data.get_data_fred([real_code0,real_code1],start,end)
+        df['float0'] = [float(x) for x in df[real_code0]]
+        df['float1'] = [float(x) for x in df[real_code1]]
+        df['ratio'] = df['float0']/df['float1']
+        df['ratio'].plot.line(figsize = (15,8))
+        plt.show()
+
+    else:
+        input_code = str(input('''
 ________________________________________
 Currently Supported and Respective Code:
 Brazilian Real : BRL
@@ -177,20 +235,18 @@ Please enter money code to view currency trend:
 (sample input : SGD/CNY/JPY)
 '''))
 
-    input_code = input_code.upper()
-    code = input_to_code(input_code)
-    input_start = str(input('please enter start date (eg. 2019-1-1):'))
-    start = input_to_date(input_start)
-    input_end = str(input('please enter end date (eg. 2019-1-1):'))
-    end = input_to_date(input_end)
+        input_code = input_code.upper()
+        code = input_to_code(input_code)
+        input_start = str(input('please enter start date (eg. 2019-1-1):'))
+        start = input_to_date(input_start)
+        input_end = str(input('please enter end date (eg. 2019-1-1):'))
+        end = input_to_date(input_end)
 
-    df = data.get_data_fred(code,start,end)
-    df = df.reset_index()
-    df = df.set_index('DATE')
-    name = input_code + ' Currency Trend'
-    df = df.rename(columns={code:name})
-    df.plot.line(figsize = (15,8))
-    plt.show()
+        df = data.get_data_fred(code,start,end)
+        name = input_code + ' Currency Trend'
+        df = df.rename(columns={code:name})
+        df.plot.line(figsize = (15,8))
+        plt.show()
 
     next = next_request()
     return next
