@@ -113,6 +113,7 @@ Sample input for candle stick + High + Volume:
             ax2.set_xticks(range(0, len(df['Date']), freq))
             ax2.set_xticklabels(df['Date'][::freq], rotation=35, fontsize = 'x-small')
             ax2.bar(df['Date'], df['Volume'])
+            ax2.legend(loc='best')
 
             ax1 = plt.subplot2grid((8,1),(0,0),rowspan = 5,colspan =1)
             ax1.legend(loc='best')
@@ -145,11 +146,11 @@ Sample input for 100 days moving average:
             plt.show()
 
         else:
-            print('in else loop')
             ax2 = plt.subplot2grid((1,1),(0,0),rowspan = 1,colspan =1)
             ax2.set_xticks(range(0, len(df['Date']), freq))
             ax2.set_xticklabels(df['Date'][::freq], rotation=35, fontsize = 'x-small')
             ax2.bar(df['Date'], df['Volume'])
+            ax2.legend(loc='best')
             plt.show()
 
     else:

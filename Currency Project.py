@@ -124,12 +124,12 @@ Exchange date requested (sample input : 2019-1-1):
                 out_currency = float(df.loc[df['DATE']== input_date][out_code])
                 input_date = ' on ' + input_date
 
-                rate = 1/in_currency*out_currency
-                rate = float("{0:.2f}".format(rate))
-                out_amount = input_amount*rate
-                out_amount = float("{0:.2f}".format(out_amount))
+        rate = 1/in_currency*out_currency
+        rate = float("{0:.2f}".format(rate))
+        out_amount = input_amount*rate
+        out_amount = float("{0:.2f}".format(out_amount))
 
-                print('''
+        print('''
 ------------------------|RESULT|------------------------
 ''')
         print(str(input_amount) + ' ' + input_code  + ' can be exchanged into ' +str(out_amount)+ ' '+output_code + input_date)
